@@ -1,0 +1,238 @@
+/* Discussion Options Menu
+---------------------------------------------------------------*/
+
+.discussion_body .wrap {
+    margin-top: -7px;    
+}
+
+/* main level link */
+.discussion_body .menu a {
+	color: #fff;
+	text-decoration: none;
+	display: block;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: 11px;
+    z-index: 99;
+	background: #c5d2e1;
+    border: 1px solid #849cb6;
+}
+
+.discussion_body .menu a img.icon {
+    vertical-align: middle;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.discussion_body .menu a:hover {
+	color: #fff;
+}
+
+/* main level link hover */
+.discussion_body .menu .current a, .discussion_body .menu li:hover > a {
+	text-decoration: underline;
+}
+
+/* sub levels link hover */
+.discussion_body .menu ul li:hover a, .discussion_body .menu li:hover li a {
+	background: none;
+	border: none;
+	color: #889aa8;
+}
+
+.discussion_body .menu li {
+	margin: 0 5px;
+	padding: 0 0 8px;
+	list-style: none;
+    float: left;
+    position: relative;
+    background: none !important;
+    border: 0 !important;
+    height: auto !important;
+}
+
+.discussion_body .menu li a {
+    line-height: 18px;
+    height: 18px;
+}
+
+.discussion_body .menu ul {
+    display:  none;
+}
+
+.discussion_body .menu li:hover > ul {
+    display: block;
+}
+
+.discussion_body .menu ul:before {
+    content: url('../img/icons/small-white-arrow-top-menu.png');
+    float: left;
+    position: relative;
+    top: -17px;
+    display: block;
+}
+
+/* level 2 list */
+.discussion_body .menu ul{
+	display: none; 
+    background-color: #fff;
+	margin: 0;
+	padding: 4px;
+    width: auto;
+	position: absolute;
+	top: 26px;
+	border: 1px solid #d7dee1;
+    z-index: 99;
+}
+
+.discussion_body .menu ul li {
+	float: none;
+	margin-left: 5px;
+	padding: 0px;
+    min-width: 120px;
+    height: 16px;
+}
+
+.discussion_body .menu ul a {
+	color: #54626f;
+    font-weight: normal;
+    line-height: 18px;
+    height: 18px;
+}
+
+/* level 3+ list */
+.discussion_body .menu ul ul {
+	left: 181px;
+	top: -3px;
+}
+
+.discussion_body .menu:after {
+	content: ".";
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+/* Admin Menu 
+---------------------------------------------------------------*/
+
+.button_menu_wrap {
+    float: right;
+    position: relative;
+    right: -22px;
+}
+
+.button_menu {
+    line-height: 100%;
+}
+
+/* main level link */
+.button_menu a {
+	color: #fff;
+	text-decoration: none;
+	display: block;
+	margin: 0;
+    padding: 3px;
+    font-size: 11px;
+    z-index: 99;
+	
+    background-image: linear-gradient(bottom, #9CB3CA 0%, #CDDAE8 100%);
+    background-image: -o-linear-gradient(bottom, #9CB3CA 0%, #CDDAE8 100%);
+    background-image: -moz-linear-gradient(bottom, #9CB3CA 0%, #CDDAE8 100%);
+    background-image: -webkit-linear-gradient(bottom, #9CB3CA 0%, #CDDAE8 100%);
+    background-image: -ms-linear-gradient(bottom, #9CB3CA 0%, #CDDAE8 100%);
+    
+    background-image: -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0, #9CB3CA),
+    	color-stop(1, #CDDAE8)
+    );
+    border-radius: 2px;
+    border: 1px solid #7e98b3;
+}
+
+.button_menu img.icon {
+    vertical-align: middle;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.button_menu a:hover {
+	color: #fff;
+}
+
+/* main level link hover */
+.button_menu .current a, .button_menu li:hover > a {
+	text-decoration: underline;
+}
+
+/* sub levels link hover */
+.button_menu ul li:hover a, .button_menu li:hover li a {
+	background: none;
+	border: none;
+	color: #889aa8;
+
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}
+
+.button_menu li {
+	margin: 0 5px;
+	padding: 0 0 8px;
+	list-style: none;
+    float: left;
+    position: relative;
+}
+
+.button_menu ul {
+    display:  none;
+}
+
+.button_menu li:hover > ul {
+    display: block;
+}
+
+/* level 2 list */
+.button_menu ul {
+	display: none;
+    background: #fff;
+	margin: 0;
+	padding: 4px;
+    min-width: 100px;
+    width: auto;
+	position: absolute;
+	top: 25px;
+	left: 0;
+	border: 1px solid #d7dee1;
+    z-index: 99;
+}
+
+.button_menu ul li {
+	float: none;
+	margin: 0;
+	padding: 0px;
+    font-size: 11px;
+}
+
+.button_menu ul a {
+	color: #889aa8;
+    font-weight: normal;
+}
+
+/* level 3+ list */
+.button_menu ul ul {
+	left: 181px;
+	top: -3px;
+}
+
+.button_menu:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
