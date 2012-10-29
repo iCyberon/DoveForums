@@ -1,0 +1,183 @@
+@import url("buttons.css");
+@import url("pagination.css");
+@import url("menu_styles.css");
+
+/* General */
+html, body { 
+	background: #fff;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.logo {
+    font-family: 'Lobster', cursive;
+    font-size: 2.188em;
+    height: 2.188em;
+    line-height: 2.188em;
+    padding: 0;
+    margin: 0;
+}
+
+h1 a{
+    color: #54626f;
+    text-decoration: none;
+}
+
+.menu {
+    display: inline-block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu li {
+	float: left; 
+    padding: 0.250em;
+}
+
+.menu li a {
+	display: block;
+	text-decoration: none;
+	font-weight: normal;
+	color: #54626f;
+}
+
+.menu li a:hover {
+    text-decoration: underline;
+}
+
+#login_box {
+ margin-top: 10px;
+}
+
+/* Discussions */
+
+.add_border{
+    border: 1px solid;
+}
+
+#avatar img {
+    margin-left: 5px;
+}
+
+.discussion_body {
+    border: 1px solid #e9eef1;
+    background: #f6fafd;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #889aa8;
+}
+
+.sticky {
+    background: #e6efc2 !important;
+    border: 1px solid #c6d880 !important;
+}
+
+.bookmark {
+    background: #D5EDF8 !important;
+    border: 1px solid #92CAE4 !important;
+}
+
+.closed {
+    background: #FBE3E4 !important;
+    border: 1px solid #FBC2C4 !important;
+}
+
+.post_count {
+    height: 50px;
+    line-height: 50px;
+}
+
+.post_count p{
+    text-align: center;  
+}
+
+h4 a {
+    color: #54626f;
+    text-decoration: none;
+}
+
+h4 a:hover {
+    text-decoration: underline;
+    color: #282e34;
+}
+
+h4 {
+    color: #889aa8;
+}
+
+.box {
+    background: #f6fafd !important;
+    border: 1px solid #e9eef1 !important;
+}
+
+.discussion_body a {
+    color: #889aa8 !important;
+    text-decoration: none !important;
+}
+
+.discussion_body a:hover {
+    color: #282e34;
+    text-decoration: underline !important;
+}
+
+#categories a {
+    color: #54626f !important;
+    text-decoration: none !important;
+}
+
+#categories a:hover {
+    color: #282e34;
+    text-decoration: underline !important;
+}
+
+fieldset {
+    border: none !important;
+}
+
+blockquote {
+	margin: 1em 3em !important;
+	color: #999 !important;
+	border-left: 2px solid #999 !important;
+	padding-left: 1em !important;
+}
+
+.post_body {
+
+}
+ 
+.permalink a {
+    text-decoration: none;
+}
+
+.permalink a:hover {
+    text-decoration: underline;
+}
+
+#avatar span.username {
+    margin: 0 !important;
+    padding: 5px !important;
+}
+
+#avatar .username a {
+	color: #54626f;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#avatar .username a:hover {
+    color: #282e34;
+    text-decoration: underline;
+}
+
+#avatar span.details {
+    font-weight: normal;
+    font-size: 11px;
+    padding: 5px;
+}
+
+.menu_bar{
+    height: 15px;
+}

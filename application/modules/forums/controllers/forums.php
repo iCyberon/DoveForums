@@ -41,17 +41,27 @@ class forums extends MY_Controller {
                 'id' => $row['id'],
                 'title' => $row['title'],
             );
+            
+            $forums = $this->forums->get_forums($row['id']);
+            
+            if($forums)
+            {
+                foreach($forums as $row)
+                {
+                    $data['forums_'.$row['parent']][] = array(
+                        'forum_id' => $row['id'],
+                        'forum_title' => $row['title'],
+                        'forum_content' => $row['content'],
+                    );
+                }
+            }
         }
         
         // Test it works.
-        //echo '<pre>';
-        //print_r($forums);
-        //echo '</pre>';
-        
-        $data = array(
-            'categories' => $data['categories'],
-        );
-        
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+
         $this->construct_template($data, 'pages/forums/home', 'Home Page');
     }
 }

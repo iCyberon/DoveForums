@@ -65,4 +65,48 @@ class forums_m extends CI_Model {
         
         return $data;
     }
+    
+    public function get_forums($parent_id)
+    {
+        // Set the select.
+        $this->db->select('
+            id,
+            title,
+            content,
+            permalink,
+            visibility,
+            type,
+            order,
+            parent,
+        ');
+        
+         // Setup some options.
+        $options = array(
+            'visibility' => 'public',
+            'type' => 'forum',
+            'parent' => $parent_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'title' => $row['title'],
+                    'content' => $row['content'],
+                    'permalink' => $row['permalink'],
+                    'parent' => $row['parent'],
+                );
+            }
+        } else {
+            return false;
+        }
+        
+        return $data;
+    }
 }
