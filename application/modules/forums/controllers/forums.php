@@ -33,6 +33,10 @@ class forums extends MY_Controller {
     
     public function index()
     {
-        echo 'Testing Dove Forums';
+        // Get all the parent forums.
+        $forums = $this->forums->get_forums();
+        
+        // Test it works.
+        print_r($forums);
     }
 }

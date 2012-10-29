@@ -7,6 +7,7 @@ class MY_Controller extends MX_Controller{
         parent::__construct();
         
         // Load in required model files.
+        $this->load->model('forums/forums_m', 'forums');
     }
     
 }

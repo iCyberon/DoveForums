@@ -32,6 +32,42 @@ class forums_m extends CI_Model {
     
     public function get_forums()
     {
+        // Setup the select.
+        $this->db->select('
+            id,
+            title,
+            permalink,
+            created_by,
+            created_date,
+            last_post_by,
+            last_post_date,
+            type,
+            status,
+            visibility,
+            parent,
+            order,
+            tags,
+            sticky
+        ');
         
+        // Setup some options.
+        $options = array(
+            'status' => 'open',
+            'visibility' => 'public',
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        foreach($query->result_array() as $row)
+        {
+            $data[] = array(
+                'id' => $row['id'],
+                'title' => $row['title'],
+            );
+        }
+        
+        return $data;
     }
 }
