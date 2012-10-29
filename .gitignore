@@ -164,4 +164,5 @@ pip-log.txt
 
 application/config/config.php
 application/config/database.php
+database.php
 application/config/email.php
