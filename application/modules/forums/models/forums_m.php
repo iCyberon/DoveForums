@@ -30,30 +30,22 @@ class forums_m extends CI_Model {
 		parent::__construct();
 	}
     
-    public function get_forums()
+    public function get_categories()
     {
         // Setup the select.
         $this->db->select('
             id,
             title,
             permalink,
-            created_by,
-            created_date,
-            last_post_by,
-            last_post_date,
-            type,
-            status,
             visibility,
-            parent,
+            type,
             order,
-            tags,
-            sticky
         ');
         
         // Setup some options.
         $options = array(
-            'status' => 'open',
             'visibility' => 'public',
+            'type' => 'category',
         );
         
         // Perform the query.
@@ -65,6 +57,9 @@ class forums_m extends CI_Model {
             $data[] = array(
                 'id' => $row['id'],
                 'title' => $row['title'],
+                'permalink' => $row['permalink'],
+                'visibility' => $row['visibility'],
+                'order' => $row['order'],
             );
         }
         

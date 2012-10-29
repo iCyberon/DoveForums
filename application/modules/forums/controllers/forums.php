@@ -28,15 +28,30 @@ class forums extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
 	}
     
     public function index()
     {
         // Get all the parent forums.
-        $forums = $this->forums->get_forums();
+        $categories = $this->forums->get_categories();
+        
+        foreach($categories as $row)
+        {
+            $data['categories'][] = array(
+                'id' => $row['id'],
+                'title' => $row['title'],
+            );
+        }
         
         // Test it works.
-        print_r($forums);
+        //echo '<pre>';
+        //print_r($forums);
+        //echo '</pre>';
+        
+        $data = array(
+            'categories' => $data['categories'],
+        );
+        
+        $this->construct_template($data, 'pages/forums/home', 'Home Page');
     }
 }
