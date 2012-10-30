@@ -11,8 +11,8 @@
                 </div>
             </div>
             <hr />
-            <div class="span-18">
-                <p>Viewing x replys - Page x of x</p>
+            <div class="span-18 last">
+                <p>Viewing {post_count} replys - Page x of x</p>
             </div>
             <hr />
             <!-- BEGIN posts -->
@@ -27,15 +27,20 @@
                     </div>
                 </div>
             <!-- END posts -->
+            <hr />
+            <div class="span-18 last">
+                <p>Viewing {post_count} replys - Page x of x</p>
+            </div>
     </div>
     <div class="span-6 last">
         <div id="forum_info" class="box">
-            <h4>Forum Info</h4>
+            <h4>Thread Info</h4>
             <ul>
-                <li>{forum_thread_count} topics</li>
-                <li>{forum_post_count} replies</li>
-                <li>Last post by: {forum_last_post_by}</li>
-                <li>Last activity: {forum_last_post_activity}</li>
+                <li>In: {forum_name}</li>
+                <li>{post_count} replies</li>
+                <li>Last post by: </li>
+                <li>Last activity: </li>
+                <li>Tags: </li>
             </ul>
         </div>
     </div>

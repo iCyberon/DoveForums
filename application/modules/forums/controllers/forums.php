@@ -108,6 +108,9 @@ class forums extends MY_Controller {
         // Get the thread name from the permalink.
         $thread_name = $this->threads->get_name_from_permalink($thread_permalink);
         
+        // Get forum name from the permalink.
+        $forum_name = $this->forums->get_name_from_permalink($forum_permalink);
+        
         // Get the thread ID from the permalink.
         $thread_id = $this->threads->get_id_from_permalink($thread_permalink);
         
@@ -138,6 +141,8 @@ class forums extends MY_Controller {
             'first_post_avatar' => img($this->gravatar->get_gravatar($first_post['email'])),
             'thread_name' => $thread_name,
             'posts' => $data['posts'],
+            'forum_name' => anchor(''.site_url().'/forums/'.$forum_permalink.'/', $forum_name),
+            'post_count' => $this->posts->count_thread_posts($thread_id),
         );
         
         $this->construct_template($data, 'pages/forums/posts', 'Thread: '.$thread_name.'');
