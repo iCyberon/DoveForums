@@ -65,7 +65,46 @@ class forums extends MY_Controller {
     }
     
     public function view($permalink)
+    {     
+        // Get the forum name from the permalink.
+        $forum_name = $this->forums->get_name_from_permalink($permalink);
+        
+        // Get the forum ID from the permalink.
+        $forum_id = $this->forums->get_id_from_permlink($permalink);
+        
+        // Get all the threads for the forum.
+        $threads = $this->threads->get_forum_threads($forum_id);
+        
+        foreach($threads as $row)
+        {
+            $data['threads'][] = array(
+                'title' => anchor(''.site_url().'/topic/'.$permalink.'/'.$row['permalink'].'/', $row['title']),
+                'started_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['started_by']),
+                'post_count' => $this->posts->count_thread_posts($row['id']),
+                'last_activity' => $row['last_activity'],
+                'last_post_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['last_post_by']),
+                
+            );
+        }
+        
+        // Forum Data.
+        $forum_info = $this->forums->get_forum_info($forum_id);
+        
+        $data = array(
+            'forum_name' => $forum_name,
+            'threads' => $data['threads'],
+            // Forum Info
+            'forum_post_count' => $this->posts->count_forum_posts($forum_id),
+            'forum_thread_count' => $this->threads->count_forum_threads($forum_id),
+            'forum_last_post_by' => anchor(''.site_url().'/account/profile/'.$forum_info['last_post_by'].'/', $forum_info['last_post_by']),
+            'forum_last_post_activity' => $forum_info['last_post_date'],
+        );
+        
+        $this->construct_template($data, 'pages/forums/threads', 'Forum: '.$forum_name.'');
+    }
+    
+    public function topic($forum_permalink, $thread_permalink)
     {
-        echo $permalink;
+        echo $thread_permalink;
     }
 }

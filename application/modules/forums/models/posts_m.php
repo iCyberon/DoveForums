@@ -48,4 +48,23 @@ class posts_m extends CI_Model {
             return '0';
         }
     }
+    
+    public function count_thread_posts($thread_id)
+    {
+        // Set some options.
+        $options = array(
+            'thread_id' => $thread_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('posts', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->num_rows();
+        } else {
+            return '0';
+        }
+    }
 }

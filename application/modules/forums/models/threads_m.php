@@ -30,6 +30,64 @@ class threads_m extends CI_Model {
 		parent::__construct();
 	}
     
+    public function get_forum_threads($forum_id)
+    {
+        // Set the select.
+        $this->db->select('
+            threads.id,
+            threads.forum_id,
+            threads.title,
+            threads.permalink,
+            threads.started_by,
+            threads.last_activity,
+            threads.last_post_by,
+            threads.status,
+            threads.visibility,
+            threads.tags,
+            threads.type,
+            users.username,
+            users.email,
+        ');
+        
+        // Set the join.
+        $this->db->join('users', 'users.username = threads.started_by');
+        
+        // Set some options.
+        $options = array(
+            'forum_id' => $forum_id,
+            'status' => 'open',
+            'visibility' => 'public',
+        );
+
+        // Perform the query.
+        $query = $this->db->get_where('threads', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'forum_id' => $row['forum_id'],
+                    'title' => $row['title'],
+                    'permalink' => $row['permalink'],
+                    'started_by' => $row['started_by'],
+                    'last_activity' => $row['last_activity'],
+                    'last_post_by' => $row['last_post_by'],
+                    'status' => $row['status'],
+                    'visibility' => $row['visibility'],
+                    'tags' => $row['tags'],
+                    'type' => $row['type'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
     public function count_forum_threads($forum_id)
     {
         // Set some options.

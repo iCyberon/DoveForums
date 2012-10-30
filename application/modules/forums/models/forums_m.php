@@ -120,4 +120,81 @@ class forums_m extends CI_Model {
         
         return $data;
     }
+    
+    public function get_forum_info($forum_id)
+    {
+        // Set the select.
+        $this->db->select('
+            last_post_by,
+            last_post_date,
+        ');
+        
+        // Set some options.
+        $options = array(
+            'id' => $forum_id,
+        );
+        
+        // Perforum the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data = array(
+                    'last_post_by' => $row['last_post_by'],
+                    'last_post_date' => $row['last_post_date'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
+    public function get_name_from_permalink($permalink)
+    {
+        // Set the select.
+        $this->db->select('title');
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('title');
+        } else {
+            return false;
+        }
+    }
+    
+    public function get_id_from_permlink($permalink)
+    {
+        // Set the select.
+        $this->db->select('id');
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('id');
+        } else {
+            return false;
+        }
+    }
 }
