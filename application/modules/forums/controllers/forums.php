@@ -104,7 +104,42 @@ class forums extends MY_Controller {
     }
     
     public function topic($forum_permalink, $thread_permalink)
-    {
-        echo $thread_permalink;
+    {       
+        // Get the thread name from the permalink.
+        $thread_name = $this->threads->get_name_from_permalink($thread_permalink);
+        
+        // Get the thread ID from the permalink.
+        $thread_id = $this->threads->get_id_from_permalink($thread_permalink);
+        
+        // Get all the posts in the thread.
+        $posts = $this->posts->get_thread_posts($thread_id);
+        
+        // Get only the first post from the array.
+        $first_post = array_shift($posts);
+                
+        // Loop though remaining posts.
+        foreach($posts as $row)
+        {
+            $data['posts'][] = array(
+                'id' => $row['id'],
+                'forum_id' => $row['forum_id'],
+                'thread_id' => $row['thread_id'],
+                'content' => $row['content'],
+                'created_by' => $row['created_by'],
+                'created_date' => $row['created_date'],
+                'avatar' => img($this->gravatar->get_gravatar($row['email'])),
+                'username' => $row['username'],
+            );
+        }
+        
+        $data = array(
+            'first_post_content' => $first_post['content'],
+            'first_post_username' => $first_post['username'],
+            'first_post_avatar' => img($this->gravatar->get_gravatar($first_post['email'])),
+            'thread_name' => $thread_name,
+            'posts' => $data['posts'],
+        );
+        
+        $this->construct_template($data, 'pages/forums/posts', 'Thread: '.$thread_name.'');
     }
 }

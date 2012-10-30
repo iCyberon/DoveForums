@@ -30,6 +30,119 @@ class posts_m extends CI_Model {
 		parent::__construct();
 	}
     
+    public function get_thread_posts($thread_id)
+    {
+        // Set the select.
+        $this->db->select('
+            posts.id,
+            posts.forum_id,
+            posts.thread_id,
+            posts.content,
+            posts.created_by,
+            posts.created_date,
+            posts.status,
+            posts.visibility,
+            users.username,
+            users.email,
+        ');
+        
+        // Set the join.
+        $this->db->join('users', 'users.username = posts.created_by');
+        
+        // Set some options.
+        $options = array(
+            'thread_id' => $thread_id,
+            'visibility' => 'public',
+            'status' => 'open',
+        );
+        
+        // Set the order.
+        $this->db->order_by('created_date', 'desc');
+        
+        // Perform the query.
+        $query = $this->db->get_where('posts', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data[] = array(
+                    'id' => $row['id'],
+                    'forum_id' => $row['forum_id'],
+                    'thread_id' => $row['thread_id'],
+                    'content' => $row['content'],
+                    'created_by' => $row['created_by'],
+                    'created_date' => $row['created_date'],
+                    'username' => $row['username'],
+                    'email' => $row['email'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
+    public function get_first_thread_post($thread_id)
+    {
+        // Set the select.
+        $this->db->select('
+            posts.id,
+            posts.forum_id,
+            posts.thread_id,
+            posts.content,
+            posts.created_by,
+            posts.created_date,
+            posts.status,
+            posts.visibility,
+            users.username,
+            users.email,
+        ');
+        
+        // Set the join.
+        $this->db->join('users', 'users.username = posts.created_by');
+        
+        // Set some options.
+        $options = array(
+            'thread_id' => $thread_id,
+            'visibility' => 'public',
+            'status' => 'open',
+        );
+        
+        // Set the limit.
+        $this->db->limit('1');
+        
+        // Order By.
+        $this->db->order_by('created_date', 'desc');
+        
+        // Perform the query.
+        $query = $this->db->get_where('posts', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data = array(
+                    'id' => $row['id'],
+                    'forum_id' => $row['forum_id'],
+                    'thread_id' => $row['thread_id'],
+                    'content' => $row['content'],
+                    'created_by' => $row['created_by'],
+                    'created_date' => $row['created_date'],
+                    'username' => $row['username'],
+                    'email' => $row['email'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
     public function count_forum_posts($forum_id)
     {
         // Set some options.

@@ -88,6 +88,50 @@ class threads_m extends CI_Model {
         }
     }
     
+    public function get_name_from_permalink($thread_permalink)
+    {
+        // Set the select.
+        $this->db->select('title');
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $thread_permalink,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('threads', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('title');
+        } else {
+            return false;
+        }
+    }
+    
+    public function get_id_from_permalink($thread_permalink)
+    {
+        // Set the select.
+        $this->db->select('id');
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $thread_permalink,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('threads', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('id');
+        } else {
+            return false;
+        }
+    }
+    
     public function count_forum_threads($forum_id)
     {
         // Set some options.
