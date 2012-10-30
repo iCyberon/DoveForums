@@ -8,6 +8,8 @@ class MY_Controller extends MX_Controller{
         
         // Load in required model files.
         $this->load->model('forums/forums_m', 'forums');
+        $this->load->model('forums/threads_m', 'threads');
+        $this->load->model('forums/posts_m', 'posts');
     }
     
     public function construct_template($data, $page_tpl, $page_title, $layout=NULL)

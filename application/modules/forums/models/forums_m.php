@@ -70,15 +70,22 @@ class forums_m extends CI_Model {
     {
         // Set the select.
         $this->db->select('
-            id,
-            title,
-            content,
-            permalink,
-            visibility,
-            type,
-            order,
-            parent,
+            forums.id,
+            forums.title,
+            forums.content,
+            forums.permalink,
+            forums.visibility,
+            forums.type,
+            forums.order,
+            forums.parent,
+            forums.last_post_by,
+            forums.last_post_date,
+            users.username,
+            users.email,
         ');
+
+        // Set the join.
+        $this->db->join('users', 'users.username = forums.last_post_by');
         
          // Setup some options.
         $options = array(
@@ -101,6 +108,10 @@ class forums_m extends CI_Model {
                     'content' => $row['content'],
                     'permalink' => $row['permalink'],
                     'parent' => $row['parent'],
+                    'last_post_by' => $row['last_post_by'],
+                    'last_post_date' => $row['last_post_date'],
+                    'username' => $row['username'],
+                    'email' => $row['email'],
                 );
             }
         } else {
