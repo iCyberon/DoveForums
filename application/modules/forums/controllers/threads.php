@@ -53,10 +53,10 @@ class threads extends MY_Controller {
             {
                 $data['threads'][] = array(
                     'title' => anchor(''.site_url().'/topic/'.$permalink.'/'.$row['permalink'].'/', $row['title']),
-                    'started_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['started_by']),
+                    'started_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['started_by'], 'title="View '.$row['started_by'].'`s profile"'),
                     'post_count' => $this->posts->count_thread_posts($row['id']),
                     'last_activity' => $this->function->convert_time(strtotime($row['last_activity'])),
-                    'last_post_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['last_post_by']),
+                    'last_post_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['last_post_by'], 'title="About '.$this->function->convert_time(strtotime($row['last_activity'])).' ago"'),
                 );
             }
         }
@@ -70,7 +70,7 @@ class threads extends MY_Controller {
             // Forum Info
             'forum_post_count' => $this->posts->count_forum_posts($forum_id),
             'forum_thread_count' => $this->threads->count_forum_threads($forum_id),
-            'forum_last_post_by' => anchor(''.site_url().'/account/profile/'.$forum_info['last_post_by'].'/', $forum_info['last_post_by']),
+            'forum_last_post_by' => anchor(''.site_url().'/account/profile/'.$forum_info['last_post_by'].'/', $forum_info['last_post_by'], 'title="View '.$forum_info['last_post_by'].'`s profile"'),
             'forum_last_post_activity' => $this->function->convert_time(strtotime($forum_info['last_post_date'])),
             'has_threads' => $has_threads,
         );

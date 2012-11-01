@@ -14,7 +14,7 @@
                             <tr>
                                 <td><strong>{title}</strong><br>Started By: {started_by}</td>
                                 <td>{post_count}</td>
-                                <td>{last_activity} ago<br>{last_post_by}</td>
+                                <td>{last_post_by}</td>
                             </tr>
                         <!-- END threads -->
                     <!-- ELSE -->
