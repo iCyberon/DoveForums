@@ -31,6 +31,9 @@
                 <li>Last post by: {thread_last_post_by}</li>
                 <li>Last activity: {thread_last_activity} ago</li>
                 <li>Tags: </li>
+                <!-- IF is_admin -->
+                    <li>{stick_thread}</li>
+                <!-- END -->
             </ul>
         </div>
     </div>

@@ -94,6 +94,7 @@ class threads_m extends CI_Model {
         $this->db->select('
             last_activity,
             last_post_by,
+            type,
         ');
         
         // Set some options.
@@ -112,6 +113,7 @@ class threads_m extends CI_Model {
                 $data = array(
                     'last_activity' => $row['last_activity'],
                     'last_post_by' => $row['last_post_by'],
+                    'type' => $row['type'],
                 );
             }
             
@@ -181,6 +183,55 @@ class threads_m extends CI_Model {
             return $query->num_rows();
         } else {
             return '0';
+        }
+    }
+    
+    public function stick($permalink)
+    {
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Data.
+        $data = array(
+            'type' => 'sticky',
+            'updated' => date('Y.m.d H.i.s'),
+        );
+        
+        // Perform the update.
+        $this->db->update('threads', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public function unstick($permalink)
+    {
+        // Set some data.
+        $data = array(
+            'type' => 'normal',
+            'updated' => date('Y.m.d H.i.s'),
+        );
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Perform the update.
+        $this->db->update('threads', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
         }
     }
 }

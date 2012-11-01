@@ -116,17 +116,24 @@ class posts extends MY_Controller {
                 'forum_id' => $row['forum_id'],
                 'thread_id' => $row['thread_id'],
                 'content' => $row['content'],
-                'created_by' => $row['created_by'],
+                'created_by' => anchor(''.site_url().'/account/profile/'.$row['username'].'/', $row['username'], 'title="View '.$row['username'].'`s profile"'),
                 'created_date' => $row['created_date'],
                 'avatar' => img($this->gravatar->get_gravatar($row['email'])),
                 'username' => $row['username'],
                 // Post Permalink
-                'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$row['id'].'', '#'.$row['id'].''),
+                'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$row['id'].'', '#'.$row['id'].'', 'title="Permalink"'),
             );
         }
         
         // Get the thread information.
         $thread_info = $this->threads->get_thread_info($thread_id);
+        
+        if($thread_info['type'] == 'sticky')
+        {
+            $stick_thread = anchor(''.site_url().'/unstick/'.$thread_permalink.'', 'Unstick Thread');
+        } else {
+            $stick_thread = anchor(''.site_url().'/stick/'.$thread_permalink.'', 'Stick Thread');
+        }
         
         $this->form_validation->set_rules($this->validation_rules['reply']);
         
@@ -138,10 +145,12 @@ class posts extends MY_Controller {
                 'posts' => $data['posts'],
                 'forum_name' => anchor(''.site_url().'/forums/'.$forum_permalink.'/', $forum_name),
                 'post_count' => $this->posts->count_thread_posts($thread_id),
-                'thread_last_post_by' => $thread_info['last_post_by'],
+                'thread_last_post_by' => anchor(''.site_url().'/account/profile/'.$thread_info['last_post_by'].'/', $thread_info['last_post_by'], 'title="View '.$thread_info['last_post_by'].'`s profile"'),
                 'thread_last_activity' => $this->function->convert_time(strtotime($thread_info['last_activity'])),
                 'pagination' => $links,
                 'logged_in' => $this->dove_auth->logged_in(),
+                'is_admin' => $this->dove_auth->is_admin(),
+                'stick_thread' => $stick_thread,
                 'posted' => $row['created_date'],
                 // Create Reply 
                 'form_open' => form_open(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'),

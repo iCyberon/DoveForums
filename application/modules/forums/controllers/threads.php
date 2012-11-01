@@ -77,4 +77,38 @@ class threads extends MY_Controller {
         
         $this->construct_template($data, 'pages/forums/threads', 'Forum: '.$forum_name.'');
     }
+    
+    public function stick($permalink)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $stick = $this->threads->stick($permalink);
+        
+        if($stick == true)
+        {
+            // The thread has been stuck, redirect.
+            redirect($this->function->refered_from());
+        } else {
+            // There has been a problem, redirect.
+            redirect($this->function->refered_from());
+        }
+    }
+    
+    public function unstick($permalink)
+    {
+         // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $unstick = $this->threads->unstick($permalink);
+        
+        if($unstick == true)
+        {
+            // The thread has been unstuck, redirect.
+            redirect($this->function->refered_from());
+        } else {
+            // There has been a problem, redirect.
+            redirect($this->function->refered_from());
+        }
+    }
 }
