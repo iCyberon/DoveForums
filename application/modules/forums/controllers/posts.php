@@ -120,37 +120,58 @@ class posts extends MY_Controller {
                 'created_date' => $row['created_date'],
                 'avatar' => img($this->gravatar->get_gravatar($row['email'])),
                 'username' => $row['username'],
+                // Post Permalink
+                'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$row['id'].'', '#'.$row['id'].''),
             );
         }
         
         // Get the thread information.
         $thread_info = $this->threads->get_thread_info($thread_id);
         
-        $data = array(
-            'thread_name' => $thread_name,
-            'posts' => $data['posts'],
-            'forum_name' => anchor(''.site_url().'/forums/'.$forum_permalink.'/', $forum_name),
-            'post_count' => $this->posts->count_thread_posts($thread_id),
-            'thread_last_post_by' => $thread_info['last_post_by'],
-            'thread_last_activity' => $this->function->convert_time(strtotime($thread_info['last_activity'])),
-            'pagination' => $links,
-            'logged_in' => $this->dove_auth->logged_in(),
-            // Create Reply 
-            'form_open' => form_open(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'),
-            'form_close' => form_close(),
-            'create_discussion_fieldset' => form_fieldset('Reply to `'.$thread_name.'`'),
-            'close_fieldset' => form_fieldset_close(),
-            // body
-            'body_label' => form_label($this->lang->line('label_reply')),
-            'body_field' => form_textarea($this->form_fields['reply']['0'], set_value($this->form_fields['reply']['0']['name'])),
-            'body_field_error' => form_error($this->form_fields['reply']['0']['name'], '<div class="error">', '</div>'),
-            // tags
-            'tags_label' => form_label($this->lang->line('label_tags')),
-            'tags_field' => form_input($this->form_fields['reply']['1'], set_value($this->form_fields['reply']['1']['name'])),
-            // Buttons
-            'submit_button' => form_submit(array( 'name' => 'submit', 'class' => 'button blue'), $this->lang->line('button_submit_thread')),  
-        );
+        $this->form_validation->set_rules($this->validation_rules['reply']);
         
-        $this->construct_template($data, 'pages/forums/posts', 'Thread: '.$thread_name.'');
+        if($this->form_validation->run() == FALSE)
+        {
+            
+            $data = array(
+                'thread_name' => $thread_name,
+                'posts' => $data['posts'],
+                'forum_name' => anchor(''.site_url().'/forums/'.$forum_permalink.'/', $forum_name),
+                'post_count' => $this->posts->count_thread_posts($thread_id),
+                'thread_last_post_by' => $thread_info['last_post_by'],
+                'thread_last_activity' => $this->function->convert_time(strtotime($thread_info['last_activity'])),
+                'pagination' => $links,
+                'logged_in' => $this->dove_auth->logged_in(),
+                // Create Reply 
+                'form_open' => form_open(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'),
+                'form_close' => form_close(),
+                'create_discussion_fieldset' => form_fieldset('Reply to `'.$thread_name.'`'),
+                'close_fieldset' => form_fieldset_close(),
+                // body
+                'body_label' => form_label($this->lang->line('label_reply')),
+                'body_field' => form_textarea($this->form_fields['reply']['0'], set_value($this->form_fields['reply']['0']['name'])),
+                'body_field_error' => form_error($this->form_fields['reply']['0']['name'], '<div class="error">', '</div>'),
+                // tags
+                'tags_label' => form_label($this->lang->line('label_tags')),
+                'tags_field' => form_input($this->form_fields['reply']['1'], set_value($this->form_fields['reply']['1']['name'])),
+                // Buttons
+                'submit_button' => form_submit(array( 'name' => 'submit', 'class' => 'button blue'), $this->lang->line('button_submit_thread')),  
+            );
+            
+            $this->construct_template($data, 'pages/forums/posts', 'Thread: '.$thread_name.'');
+        } else {
+            
+            $enter_reply = $this->posts->reply($forum_permalink, $thread_permalink);
+            
+            if($enter_reply == false)
+            {
+                // There has been a problem, create a message and redirect.
+                $this->function->error_message($this->lang->line('error_create_reply'));
+                redirect(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'');
+            } else {
+                // Create a success message and redirect the user.
+                redirect(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$enter_reply.'');                
+            }
+        }
     }
 }

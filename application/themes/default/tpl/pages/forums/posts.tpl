@@ -12,7 +12,8 @@
                         <p>{created_by}</p>
                     </div>
                     
-                    <div class="span-15 last">
+                    <div class="span-15 last" id="{id}">
+                        <span>{post_permalink}</span>
                         <p>{content}</p>
                     </div>
                 </div>

@@ -60,7 +60,7 @@ class posts_m extends CI_Model {
         );
         
         // Set the order.
-        $this->db->order_by('created_date', 'desc');
+        $this->db->order_by('created_date', 'asc');
         
         // Perform the query.
         $query = $this->db->get_where('posts', $options);
@@ -83,6 +83,76 @@ class posts_m extends CI_Model {
             }
             
             return $data;
+        } else {
+            return false;
+        }
+    }
+    
+    public function reply($forum_permalink, $thread_permalink)
+    {
+        // Get the forum ID.
+        $forum_id = $this->forums->get_id_from_permlink($forum_permalink);
+        
+        // Get the thread ID.
+        $thread_id = $this->threads->get_id_from_permalink($thread_permalink);
+        
+        // Get the post date.
+        $data = array(
+            'forum_id' => $forum_id,
+            'thread_id' => $thread_id,
+            'content' => $this->input->post('body'),
+            'tags' => $this->input->post('tags'),
+            'created_by' => $this->session->userdata('username'),
+            'created_date' => date('Y.m.d H.i.s'),
+        );
+        
+        // Insert the data into the posts table.
+        $this->db->insert('posts', $data);
+        
+        // Check to see if it worked.
+        if($this->db->affected_rows() > 0)
+        {
+            // The post has been entered into the database, lets update the threads and forums tables.
+            // Get the post insert id.
+            $post_id = $this->db->insert_id();
+            
+            $data = array(
+                'last_activity' => date('Y.m.d H.i.s'),
+                'last_post_by' => $this->session->userdata('username'),
+            );
+            
+            // Set some options.
+            $options = array(
+                'id' => $thread_id,
+            );
+            
+            // Perform the update.
+            $this->db->update('threads', $data, $options);
+            
+            if($this->db->affected_rows() > 0)
+            {
+                $data = array(
+                    'last_post_by' => $this->session->userdata('username'),
+                    'last_post_date' => date('Y.m.d H.i.s'),
+                );
+                
+                // Set some options.
+                $options = array(
+                    'id' => $forum_id,
+                );
+                
+                // Perform the update.
+                $this->db->update('forums', $data, $options);
+                
+                if($this->db->affected_rows() > 0)
+                {
+                    return $post_id;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

@@ -1,6 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 // Form rules.
+$lang['rules_label_body'] = 'Reply';
 
 // Form labels.
 $lang['label_reply'] = 'Reply:';
