@@ -55,7 +55,6 @@ class threads_m extends CI_Model {
         // Set some options.
         $options = array(
             'forum_id' => $forum_id,
-            'status' => 'open',
             'visibility' => 'public',
         );
 
@@ -95,6 +94,7 @@ class threads_m extends CI_Model {
             last_activity,
             last_post_by,
             type,
+            status,
         ');
         
         // Set some options.
@@ -114,6 +114,7 @@ class threads_m extends CI_Model {
                     'last_activity' => $row['last_activity'],
                     'last_post_by' => $row['last_post_by'],
                     'type' => $row['type'],
+                    'status' => $row['status'],
                 );
             }
             
@@ -216,6 +217,54 @@ class threads_m extends CI_Model {
         // Set some data.
         $data = array(
             'type' => 'normal',
+            'updated' => date('Y.m.d H.i.s'),
+        );
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Perform the update.
+        $this->db->update('threads', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function open($permalink)
+    {
+        // Set some data.
+        $data = array(
+            'status' => 'open',
+            'updated' => date('Y.m.d H.i.s'),
+        );
+        
+        // Set some options.
+        $options = array(
+            'permalink' => $permalink,
+        );
+        
+        // Perform the update.
+        $this->db->update('threads', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function close($permalink)
+    {
+        // Set some data.
+        $data = array(
+            'status' => 'closed',
             'updated' => date('Y.m.d H.i.s'),
         );
         

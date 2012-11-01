@@ -44,6 +44,8 @@ $route['404_override'] = '';
 $route['forum/(:any)'] = 'forums/threads/forum/$1';
 $route['stick/(:any)'] = 'forums/threads/stick/$1';
 $route['unstick/(:any)'] = 'forums/threads/unstick/$1';
+$route['open/(:any)'] = 'forums/threads/open/$1';
+$route['close/(:any)'] = 'forums/threads/close/$1';
 $route['topic/(:any)/(:any)'] = 'forums/posts/topic/$1/$2';
 $route['admin'] = 'admin/dashboard/home';
 

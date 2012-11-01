@@ -56,7 +56,6 @@ class posts_m extends CI_Model {
         $options = array(
             'thread_id' => $thread_id,
             'visibility' => 'public',
-            'status' => 'open',
         );
         
         // Set the order.
@@ -79,6 +78,7 @@ class posts_m extends CI_Model {
                     'created_date' => $row['created_date'],
                     'username' => $row['username'],
                     'email' => $row['email'],
+                    'status' => $row['status'],
                 );
             }
             

@@ -111,4 +111,38 @@ class threads extends MY_Controller {
             redirect($this->function->refered_from());
         }
     }
+    
+    public function open($permalink)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $open = $this->threads->open($permalink);
+        
+        if($open == true)
+        {
+            // The thread has been opened, redirect.
+            redirect($this->function->refered_from());
+        } else {
+            // There has been a problem, redirect.
+            redirect($this->function->refered_from());
+        }
+    }
+    
+    public function close($permalink)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $close = $this->threads->close($permalink);
+        
+        if($close == true)
+        {
+            // The thread has been closed, redirect.
+            redirect($this->function->refered_from());
+        } else {
+            // There has been a problem, redirect.
+            redirect($this->function->refered_from());
+        }
+    }
 }

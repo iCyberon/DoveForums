@@ -135,6 +135,15 @@ class posts extends MY_Controller {
             $stick_thread = anchor(''.site_url().'/stick/'.$thread_permalink.'', 'Stick Thread');
         }
         
+        if($thread_info['status'] == 'open')
+        {
+            $thread_status = anchor(''.site_url().'/close/'.$thread_permalink.'', 'Close Thread');
+            $thread_open = true;
+        } else {
+            $thread_status = anchor(''.site_url().'/open/'.$thread_permalink.'', 'Open Thread');
+            $thread_open = false;
+        }
+        
         $this->form_validation->set_rules($this->validation_rules['reply']);
         
         if($this->form_validation->run() == FALSE)
@@ -151,6 +160,8 @@ class posts extends MY_Controller {
                 'logged_in' => $this->dove_auth->logged_in(),
                 'is_admin' => $this->dove_auth->is_admin(),
                 'stick_thread' => $stick_thread,
+                'thread_status' => $thread_status,
+                'thread_open' => $thread_open,
                 'posted' => $row['created_date'],
                 // Create Reply 
                 'form_open' => form_open(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'),

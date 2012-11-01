@@ -33,12 +33,14 @@
                 <li>Tags: </li>
                 <!-- IF is_admin -->
                     <li>{stick_thread}</li>
+                    <li>{thread_status}</li>
                 <!-- END -->
             </ul>
         </div>
     </div>
     <div class="span-18">
         <!-- IF logged_in -->
+            <!-- IF thread_open -->
             {form_open}
                 {create_discussion_fieldset}
 
@@ -59,6 +61,11 @@
                 
                 {close_fieldset}
             {form_close}
+            <!-- ELSE -->
+                <div class="info">
+                    <span>This thread is closed for posting.</span>
+                </div>
+            <!-- END -->
         <!-- ELSE -->
             <div class="info">
                 <span>You need to be logged in to reply to this thread.</span>
