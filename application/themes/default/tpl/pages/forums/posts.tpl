@@ -9,11 +9,10 @@
                 <div class="span-18">
                     <div class="span-3">
                         {avatar}
-                        <p>{created_by}</p>
                     </div>
                     
-                    <div class="span-15 last" id="{id}">
-                        <span>{post_permalink}</span>
+                    <div class="span-15 last " id="{id}">
+                        <div class="append-bottom"><strong>{created_by}</strong><span class="right">{posted} / {post_permalink}</span></div>
                         <p>{content}</p>
                     </div>
                 </div>

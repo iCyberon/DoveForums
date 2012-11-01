@@ -142,6 +142,7 @@ class posts extends MY_Controller {
                 'thread_last_activity' => $this->function->convert_time(strtotime($thread_info['last_activity'])),
                 'pagination' => $links,
                 'logged_in' => $this->dove_auth->logged_in(),
+                'posted' => $row['created_date'],
                 // Create Reply 
                 'form_open' => form_open(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'),
                 'form_close' => form_close(),
