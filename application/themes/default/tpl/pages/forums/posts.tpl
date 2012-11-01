@@ -2,7 +2,7 @@
     <div class="span-18">
         <h3>{thread_name}</h3>
             <div class="span-18 last">
-                <p>Viewing {post_count} replys - {pagination}</p>
+                <p>Viewing {post_count} replys</p>
             </div>
             <hr />
             <!-- BEGIN posts -->
@@ -18,8 +18,8 @@
                 </div>
             <!-- END posts -->
             <hr />
-            <div class="span-18 last">
-                <p>Viewing {post_count} replys - {pagination}</p>
+            <div class="span-14 pagination blue append-bottom">
+                {pagination}
             </div>
     </div>
     <div class="span-6 last">
@@ -33,5 +33,33 @@
                 <li>Tags: </li>
             </ul>
         </div>
+    </div>
+    <div class="span-18">
+        <!-- IF logged_in -->
+            {form_open}
+                {create_discussion_fieldset}
+
+                <p>
+                    {body_label}<br />
+                    {body_field}
+                    {body_field_error}
+                </p>
+                
+                <p>
+                    {tags_label}<br />
+                    {tags_field}
+                </p>
+
+                <div class="append-bottom">
+                    {submit_button}
+                </div>
+                
+                {close_fieldset}
+            {form_close}
+        <!-- ELSE -->
+            <div class="info">
+                <span>You need to be logged in to reply to this thread.</span>
+            </div>
+        <!-- END -->
     </div>
 </div>

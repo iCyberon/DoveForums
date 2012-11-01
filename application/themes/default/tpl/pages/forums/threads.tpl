@@ -3,19 +3,26 @@
         <div class="box">
             <h3>{forum_name}</h3>
             <div>
+                <!-- IF {has_threads} -->
                 <table>
                     <tr>
                         <th>Topic</th>
                         <th>Replies</th>
                         <th>Last Post</th>
                     </tr>
-                    <!-- BEGIN threads -->
-                        <tr>
-                            <td><strong>{title}</strong><br>Started By: {started_by}</td>
-                            <td>{post_count}</td>
-                            <td>{last_activity} ago<br>{last_post_by}</td>
+                        <!-- BEGIN threads -->
+                            <tr>
+                                <td><strong>{title}</strong><br>Started By: {started_by}</td>
+                                <td>{post_count}</td>
+                                <td>{last_activity} ago<br>{last_post_by}</td>
                             </tr>
                         <!-- END threads -->
+                    <!-- ELSE -->
+                        <div class="info">
+                            <span>Sorry no threads have been found.  Why not start one ?</span>
+                        </div>
+                    <!-- END -->
+                        
                     </table>
                 </div>
             </div>

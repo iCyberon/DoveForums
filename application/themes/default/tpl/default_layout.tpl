@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{T_Folder}/css/screen.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{T_Folder}/css/typography.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{T_Folder}/css/print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="{T_Folder}/css/pagination.css" type="text/css" media="screen" />
         <!--[if lt IE 8]>
           <link rel="stylesheet" href="{T_Folder}/css/ie.css" type="text/css" media="screen, projection">
         <![endif]-->

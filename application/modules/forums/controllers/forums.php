@@ -50,7 +50,7 @@ class forums extends MY_Controller {
                 {
                     $data['forums_'.$row['parent']][] = array(
                         'forum_id' => $row['id'],
-                        'forum_title' => anchor(''.site_url().'/forums/'.$row['permalink'].'/', $row['title']),
+                        'forum_title' => anchor(''.site_url().'/forum/'.$row['permalink'].'/', $row['title']),
                         'forum_content' => $row['content'],
                         'forum_last_post' => anchor(''.site_url().'/account/profile/'.$row['last_post_by'].'', $row['username']),
                         'forum_last_post_date' => $this->function->convert_time(strtotime($row['last_post_date'])),
@@ -62,125 +62,5 @@ class forums extends MY_Controller {
         }
 
         $this->construct_template($data, 'pages/forums/home', 'Home Page');
-    }
-    
-    public function view($permalink)
-    {     
-        // Get the forum name from the permalink.
-        $forum_name = $this->forums->get_name_from_permalink($permalink);
-        
-        // Get the forum ID from the permalink.
-        $forum_id = $this->forums->get_id_from_permlink($permalink);
-        
-        // Get all the threads for the forum.
-        $threads = $this->threads->get_forum_threads($forum_id);
-        
-        foreach($threads as $row)
-        {
-            $data['threads'][] = array(
-                'title' => anchor(''.site_url().'/topic/'.$permalink.'/'.$row['permalink'].'/', $row['title']),
-                'started_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['started_by']),
-                'post_count' => $this->posts->count_thread_posts($row['id']),
-                'last_activity' => $this->function->convert_time(strtotime($row['last_activity'])),
-                'last_post_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['last_post_by']),
-                
-            );
-        }
-        
-        // Forum Data.
-        $forum_info = $this->forums->get_forum_info($forum_id);
-        
-        $data = array(
-            'forum_name' => $forum_name,
-            'threads' => $data['threads'],
-            // Forum Info
-            'forum_post_count' => $this->posts->count_forum_posts($forum_id),
-            'forum_thread_count' => $this->threads->count_forum_threads($forum_id),
-            'forum_last_post_by' => anchor(''.site_url().'/account/profile/'.$forum_info['last_post_by'].'/', $forum_info['last_post_by']),
-            'forum_last_post_activity' => $this->function->convert_time(strtotime($forum_info['last_post_date'])),
-        );
-        
-        $this->construct_template($data, 'pages/forums/threads', 'Forum: '.$forum_name.'');
-    }
-    
-    public function topic($forum_permalink, $thread_permalink)
-    {       
-        
-        // Get the thread name from the permalink.
-        $thread_name = $this->threads->get_name_from_permalink($thread_permalink);
-        
-        // Get forum name from the permalink.
-        $forum_name = $this->forums->get_name_from_permalink($forum_permalink);
-        
-        // Get the thread ID from the permalink.
-        $thread_id = $this->threads->get_id_from_permalink($thread_permalink);
-        
-  		/**
-  		* Setup config settings for pagination
-  		*
-  		* @base_url - The base url for the pagination.
-  		* @total_rows - The total number of returned rows.
-  		* @url_segment - Part of url to look at for pagination offset.
-        * @per_page - Setting for topics to show per page.
-  		**/
-  		$config['base_url'] = site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/';
-  		$config['total_rows'] = $this->posts->count_thread_posts($thread_id); 
-  		$config['uri_segment'] = 4;
-  		$config['per_page'] = $this->settings->get_setting('posts_per_page');
-        $config['num_links'] = 2;
-        
-  		/**
-  		* Initialize the pagination
-  		**/
-  		$this->pagination->initialize($config);
-    
-  		/**
-  		* Build links for the pagination
-  		**/		
-  		$links = $this->pagination->create_links();
-            
-        /**
-        * Offset & Limit for topics query
-        **/
-   	   	$limit = $this->settings->get_setting('posts_per_page');
-   	   	$offset = $this->uri->segment(4); // For pagination
-        
-        // Get all the posts in the thread.
-        $posts = $this->posts->get_thread_posts($thread_id, $limit, $offset);
-        
-        // Get only the first post from the array.
-        $first_post = $this->posts->get_first_thread_post($thread_id);
-                
-        // Loop though remaining posts.
-        foreach($posts as $row)
-        {
-            $data['posts'][] = array(
-                'id' => $row['id'],
-                'forum_id' => $row['forum_id'],
-                'thread_id' => $row['thread_id'],
-                'content' => $row['content'],
-                'created_by' => $row['created_by'],
-                'created_date' => $row['created_date'],
-                'avatar' => img($this->gravatar->get_gravatar($row['email'])),
-                'username' => $row['username'],
-            );
-        }
-        
-        // Get the thread information.
-        $thread_info = $this->threads->get_thread_info($thread_id);
-        
-        $data = array(
-            'thread_name' => $thread_name,
-            'posts' => $data['posts'],
-            'forum_name' => anchor(''.site_url().'/forums/'.$forum_permalink.'/', $forum_name),
-            'post_count' => $this->posts->count_thread_posts($thread_id),
-            'thread_last_post_by' => $thread_info['last_post_by'],
-            'thread_last_activity' => $this->function->convert_time(strtotime($thread_info['last_activity'])),
-            'pagination' => $links,
-            // Create Reply 
-            
-        );
-        
-        $this->construct_template($data, 'pages/forums/posts', 'Thread: '.$thread_name.'');
     }
 }

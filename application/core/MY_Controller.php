@@ -6,6 +6,12 @@ class MY_Controller extends MX_Controller{
     {
         parent::__construct();
         
+        // Load language files.
+        $this->load->language('forums/success_messages');
+        $this->load->language('forums/error_messages');
+        $this->load->language('forums/general');
+        $this->load->language('forums/posts');
+        
         // Load in required model files.
         $this->load->model('forums/forums_m', 'forums');
         $this->load->model('forums/threads_m', 'threads');
@@ -23,7 +29,9 @@ class MY_Controller extends MX_Controller{
         }
 
         // Load language files.
-        $languages = array();
+        $languages = array(
+            'posts' => $this->load->language('forums/posts'),
+        );
         
         // Send to the parser.
         $this->parser->append('lang', $languages);
