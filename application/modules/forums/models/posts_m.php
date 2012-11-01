@@ -30,7 +30,7 @@ class posts_m extends CI_Model {
 		parent::__construct();
 	}
     
-    public function get_thread_posts($thread_id)
+    public function get_thread_posts($thread_id, $limit=NULL, $offset=NULL)
     {
         // Set the select.
         $this->db->select('
@@ -48,6 +48,9 @@ class posts_m extends CI_Model {
         
         // Set the join.
         $this->db->join('users', 'users.username = posts.created_by');
+        
+        // Set the limit.
+        $this->db->limit($limit, $offset);
         
         // Set some options.
         $options = array(

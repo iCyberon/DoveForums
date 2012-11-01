@@ -88,6 +88,39 @@ class threads_m extends CI_Model {
         }
     }
     
+    public function get_thread_info($thread_id)
+    {
+        // Set the select.
+        $this->db->select('
+            last_activity,
+            last_post_by,
+        ');
+        
+        // Set some options.
+        $options = array(
+            'id' => $thread_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('threads', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data = array(
+                    'last_activity' => $row['last_activity'],
+                    'last_post_by' => $row['last_post_by'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
     public function get_name_from_permalink($thread_permalink)
     {
         // Set the select.

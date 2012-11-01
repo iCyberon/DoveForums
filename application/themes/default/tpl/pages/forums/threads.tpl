@@ -13,7 +13,7 @@
                         <tr>
                             <td><strong>{title}</strong><br>Started By: {started_by}</td>
                             <td>{post_count}</td>
-                            <td>{last_activity}<br>{last_post_by}</td>
+                            <td>{last_activity} ago<br>{last_post_by}</td>
                             </tr>
                         <!-- END threads -->
                     </table>
@@ -27,7 +27,7 @@
                 <li>{forum_thread_count} topics</li>
                 <li>{forum_post_count} replies</li>
                 <li>Last post by: {forum_last_post_by}</li>
-                <li>Last activity: {forum_last_post_activity}</li>
+                <li>Last activity: {forum_last_post_activity} ago</li>
             </ul>
         </div>
     </div>

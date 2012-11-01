@@ -10,6 +10,7 @@ class MY_Controller extends MX_Controller{
         $this->load->model('forums/forums_m', 'forums');
         $this->load->model('forums/threads_m', 'threads');
         $this->load->model('forums/posts_m', 'posts');
+        $this->load->model('functions_m', 'functions');
     }
     
     public function construct_template($data, $page_tpl, $page_title, $layout=NULL)
