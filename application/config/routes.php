@@ -47,6 +47,9 @@ $route['unstick/(:any)'] = 'forums/threads/unstick/$1';
 $route['open/(:any)'] = 'forums/threads/open/$1';
 $route['close/(:any)'] = 'forums/threads/close/$1';
 $route['topic/(:any)/(:any)'] = 'forums/posts/topic/$1/$2';
+$route['edit_post/(:any)'] = 'forums/posts/edit/$1';
+$route['delete_post/(:any)'] = 'forums/posts/delete/$1';
+$route['spam_post/(:any)'] = 'forums/posts/spam/$1';
 $route['admin'] = 'admin/dashboard/home';
 
 

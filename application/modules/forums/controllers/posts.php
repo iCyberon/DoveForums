@@ -35,6 +35,14 @@ class posts extends MY_Controller {
                 'rules' => 'required',
             ),
         ),
+        'edit' => array(
+            //0
+            array(
+                'field' => 'body',
+                'label' => 'lang:rules_label_body',
+                'rules' => 'required',
+            ),
+        ),
     );
     
     // Form fields.
@@ -53,6 +61,27 @@ class posts extends MY_Controller {
                 'class' => 'text',
             ),
         ),
+        
+        'edit' => array(
+            //0
+            array(
+                'id' => 'reply_body',
+                'name' => 'body',
+                'cols' => '20',
+            ),
+            //1
+            array(
+                'id' => 'tags',
+                'name'=> 'tags',
+                'class' => 'text',
+            ),
+            //2
+            array(
+                'id' => 'reason',
+                'name' => 'reason',
+                'class' => 'text',
+            ),
+        ),
     );
 
 	public function __construct()
@@ -60,7 +89,7 @@ class posts extends MY_Controller {
 		parent::__construct();	
 	}
     
-    public function topic($forum_permalink, $thread_permalink)
+    public function topic($forum_permalink, $thread_permalink, $limit=NULL, $offset=NULL)
     {       
         
         // Get the thread name from the permalink.
@@ -111,6 +140,19 @@ class posts extends MY_Controller {
         // Loop though remaining posts.
         foreach($posts as $row)
         {
+            // Build the links.
+            if($row['created_by'] == $this->session->userdata('username') || $this->dove_auth->is_admin())
+            {
+                // The user may edit and delete this.
+                $edit_link = anchor(''.site_url().'/edit_post/'.$row['id'].'/', 'Edit');
+                $delete_link = anchor(''.site_url().'/delete_post/'.$row['id'].'/', 'Delete');
+                
+            } else {
+                
+                $edit_link = '';
+                $delete_link = '';
+            }
+            
             $data['posts'][] = array(
                 'id' => $row['id'],
                 'forum_id' => $row['forum_id'],
@@ -121,7 +163,11 @@ class posts extends MY_Controller {
                 'avatar' => img($this->gravatar->get_gravatar($row['email'])),
                 'username' => $row['username'],
                 // Post Permalink
-                'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$row['id'].'', '#'.$row['id'].'', 'title="Permalink"'),
+                'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'.$limit.'/'.$offset.'/#'.$row['id'].'', '#'.$row['id'].'', 'title="Permalink"'),
+                // Links
+                'edit_link' => $edit_link,
+                'delete_link' => $delete_link,
+                'spam_link' => anchor(''.site_url().'/spam_post/'.$row['id'].'/', 'Spam'),
             );
         }
         
@@ -191,8 +237,89 @@ class posts extends MY_Controller {
                 redirect(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'');
             } else {
                 // Create a success message and redirect the user.
-                redirect(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/#'.$enter_reply.'');                
+                redirect(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'.$limit.'/'.$offset.'/#'.$enter_reply.'');                
             }
+        }
+    }
+    
+    public function edit($post_id)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        // Set the validation rules.
+        $this->form_validation->set_rules($this->validation_rules['edit']);
+        
+        // Check if the form has been submitted.
+        if($this->form_validation->run() == FALSE)
+        {
+            // Get the post information.
+            $post = $this->posts->get_post($post_id);
+            
+            $data = array(
+                'form_open' => form_open(''.site_url().'/edit_post/'.$post_id.'/'),
+                'form_close' => form_close(),
+                'edit_post_fieldset' => form_fieldset('Edit Reply'),
+                'revision_fieldset' => form_fieldset('Revision'),
+                'close_fieldset' => form_fieldset_close(),
+                // body
+                'body_label' => form_label($this->lang->line('label_reply')),
+                'body_field' => form_textarea($this->form_fields['edit']['0'], set_value($this->form_fields['edit']['0']['name'], $post['content'])),
+                'body_field_error' => form_error($this->form_fields['edit']['0']['name'], '<div class="error">', '</div>'),
+                // tags
+                'tags_label' => form_label($this->lang->line('label_tags')),
+                'tags_field' => form_input($this->form_fields['edit']['1'], set_value($this->form_fields['edit']['1']['name'], $post['tags'])),
+                // Reason
+                'reason_label' => form_label($this->lang->line('label_reason')),
+                'reason_field' => form_input($this->form_fields['edit']['2'], set_value($this->form_fields['edit']['2']['name'])),
+                // Buttons
+                'submit_button' => form_submit(array( 'name' => 'submit', 'class' => 'button blue'), $this->lang->line('button_submit_thread')),  
+            );
+            
+            $this->construct_template($data, 'pages/forums/edit_post', 'Edit Reply');
+            
+        } else {
+            $edit = $this->posts->edit($post_id);
+            
+            if($edit == true)
+            {
+                redirect($this->function->refered_from());
+            } else {
+                $this->function->error_message($this->lang->line('error_edit_post'));
+                redirect($this->function->refered_from());                
+            }
+        }
+    }
+    
+    public function delete($post_id)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $delete = $this->posts->delete($post_id);
+        
+        if($delete == true)
+        {
+            redirect($this->function->refered_from());
+        } else {
+            $this->function->error_message($this->lang->line('error_delete_post'));
+            redirect($this->function->refered_from());
+        }
+    }
+    
+    public function spam($post_id)
+    {
+        // Store the page the user came from.
+        $this->function->store_referer();
+        
+        $spam = $this->posts->spam($post_id);
+        
+        if($spam == true)
+        {
+            redirect($this->function->refered_from());
+        } else {
+            $this->function->error_message($this->lang->line('error_spam_post'));
+            redirect($this->function->refered_from());
         }
     }
 }

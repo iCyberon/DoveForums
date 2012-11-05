@@ -1,27 +1,29 @@
 <div>
     <div class="span-18">
+        <div class="box">
         <h3>{thread_name}</h3>
-            <div class="span-18 last">
-                <p>Viewing {post_count} replys</p>
-            </div>
-            <hr />
+        
             <!-- BEGIN posts -->
-                <div class="span-18">
+                <div class="span-17">
                     <div class="span-3">
                         {avatar}
                     </div>
                     
-                    <div class="span-15 last " id="{id}">
+                    <div class="span-14 last " id="{id}">
                         <div class="append-bottom"><strong>{created_by}</strong><span class="right">{posted} / {post_permalink}</span></div>
                         <p>{content}</p>
+                        <p>{edit_link}&nbsp;{delete_link}&nbsp;{spam_link}</p>
                     </div>
                 </div>
             <!-- END posts -->
+            <div class="clear"></div>
+        </div>
             <hr />
             <div class="span-14 pagination blue append-bottom">
                 {pagination}
             </div>
-    </div>
+        
+        </div>
     <div class="span-6 last">
         <div id="forum_info" class="box">
             <h4>Thread Info</h4>

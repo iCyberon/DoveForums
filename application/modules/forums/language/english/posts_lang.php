@@ -6,6 +6,7 @@ $lang['rules_label_body'] = 'Reply';
 // Form labels.
 $lang['label_reply'] = 'Reply:';
 $lang['label_tags'] = 'Tags:';
+$lang['label_reason'] = 'Reason for editing: (optional)';
 
 // Text
 

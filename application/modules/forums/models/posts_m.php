@@ -88,6 +88,38 @@ class posts_m extends CI_Model {
         }
     }
     
+    public function get_post($post_id)
+    {
+        // Set the select.
+        $this->db->select('
+            content,
+            tags,
+        ');
+        
+        // Set some options.
+        $options = array(
+            'id' => $post_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('posts', $options);
+        
+        if($query->num_rows() > 0)
+        {
+            foreach($query->result_array() as $row)
+            {
+                $data = array(
+                    'content' => $row['content'],
+                    'tags' => $row['tags'],
+                );
+            }
+            
+            return $data;
+        } else {
+            return false;
+        }
+    }
+    
     public function reply($forum_permalink, $thread_permalink)
     {
         // Get the forum ID.
@@ -221,6 +253,8 @@ class posts_m extends CI_Model {
         // Set some options.
         $options = array(
             'forum_id' => $forum_id,
+            'visibility' => 'public',
+            'status' => 'open',
         );
         
         // Perform the query.
@@ -240,6 +274,8 @@ class posts_m extends CI_Model {
         // Set some options.
         $options = array(
             'thread_id' => $thread_id,
+            'visibility' => 'public',
+            'status' => 'open',
         );
         
         // Perform the query.
@@ -252,5 +288,77 @@ class posts_m extends CI_Model {
         } else {
             return '0';
         }
+    }
+    
+    public function edit($post_id)
+    {
+        // Set some data.
+        $data = array(
+            'content' => $this->input->post('body'),
+            'tags' => $this->input->post('tags'),
+            'updated_date' => date('Y.m.d H.i.s'),
+            'updated_by' => $this->session->userdata('username'),
+            'updated_reason' => $this->input->post('reason'),
+        );
+        
+        // set some options.
+        $options = array(
+            'id' => $post_id,
+        );
+        
+        // Perform the update.
+        $this->db->update('posts', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function delete($post_id)
+    {
+        // Set some options.
+        $options = array(
+            'id' => $post_id,
+        );
+        
+        $this->db->delete('posts', $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function spam($post_id)
+    {
+        // Set some data.
+        $data = array(
+            'status' => 'spam',
+            'visibility' => 'hidden',
+            'updated_date' => date('Y.m.d H.i.s'),
+            'updated_by' => $this->session->userdata('username'),
+            'updated_reason' => 'Spam',
+        );
+        
+        // Set some options.
+        $options = array(
+            'id' => $post_id,
+        );
+        
+        // Perform the update.
+        $this->db->update('posts', $data, $options);
+        
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 }
