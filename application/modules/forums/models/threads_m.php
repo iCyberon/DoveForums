@@ -146,6 +146,28 @@ class threads_m extends CI_Model {
         }
     }
     
+    public function get_permalink_by_id($thread_id)
+    {
+        // Set the select.
+        $this->db->select('permalink');
+        
+        // Set some options.
+        $options = array(
+            'id' => $thread_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('threads', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('permalink');
+        } else {
+            return false;
+        }
+    }
+    
     public function get_id_from_permalink($thread_permalink)
     {
         // Set the select.

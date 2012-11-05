@@ -20,6 +20,8 @@
             </p>   
             
             <div class="append-bottom">
+                {forum_permalink}
+                {thread_permalink}
                 {submit_button}
             </div>       
         {close_fieldset}

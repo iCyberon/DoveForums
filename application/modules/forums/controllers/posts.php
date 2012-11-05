@@ -243,10 +243,7 @@ class posts extends MY_Controller {
     }
     
     public function edit($post_id)
-    {
-        // Store the page the user came from.
-        $this->function->store_referer();
-        
+    {   
         // Set the validation rules.
         $this->form_validation->set_rules($this->validation_rules['edit']);
         
@@ -255,6 +252,12 @@ class posts extends MY_Controller {
         {
             // Get the post information.
             $post = $this->posts->get_post($post_id);
+            
+            // Get the thread permalink.
+            $thread_permalink = $this->threads->get_permalink_by_id($post['thread_id']);
+            
+            // Get the forum permalink.
+            $forum_permalink = $this->forums->get_permalink_by_id($post['forum_id']);
             
             $data = array(
                 'form_open' => form_open(''.site_url().'/edit_post/'.$post_id.'/'),
@@ -273,7 +276,10 @@ class posts extends MY_Controller {
                 'reason_label' => form_label($this->lang->line('label_reason')),
                 'reason_field' => form_input($this->form_fields['edit']['2'], set_value($this->form_fields['edit']['2']['name'])),
                 // Buttons
-                'submit_button' => form_submit(array( 'name' => 'submit', 'class' => 'button blue'), $this->lang->line('button_submit_thread')),  
+                'submit_button' => form_submit(array( 'name' => 'submit', 'class' => 'button blue'), $this->lang->line('button_submit_thread')),
+                // Hidden.
+                'forum_permalink' => form_hidden('forum_permalink', $forum_permalink),
+                'thread_permalink' => form_hidden('thread_permalink', $thread_permalink),  
             );
             
             $this->construct_template($data, 'pages/forums/edit_post', 'Edit Reply');
@@ -283,7 +289,7 @@ class posts extends MY_Controller {
             
             if($edit == true)
             {
-                redirect($this->function->refered_from());
+                redirect(''.site_url().'/topic/'.$this->input->post('forum_permalink').'/'.$this->input->post('thread_permalink').'/');
             } else {
                 $this->function->error_message($this->lang->line('error_edit_post'));
                 redirect($this->function->refered_from());                

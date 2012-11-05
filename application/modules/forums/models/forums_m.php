@@ -197,4 +197,26 @@ class forums_m extends CI_Model {
             return false;
         }
     }
+    
+    public function get_permalink_by_id($forum_id)
+    {
+        // Set the select.
+        $this->db->select('permalink');
+        
+        // Set some options.
+        $options = array(
+            'id' => $forum_id,
+        );
+        
+        // Perform the query.
+        $query = $this->db->get_where('forums', $options);
+        
+        // Results.
+        if($query->num_rows() > 0)
+        {
+            return $query->row('permalink');
+        } else {
+            return false;
+        }
+    }
 }

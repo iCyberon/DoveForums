@@ -94,6 +94,8 @@ class posts_m extends CI_Model {
         $this->db->select('
             content,
             tags,
+            forum_id,
+            thread_id,
         ');
         
         // Set some options.
@@ -111,6 +113,8 @@ class posts_m extends CI_Model {
                 $data = array(
                     'content' => $row['content'],
                     'tags' => $row['tags'],
+                    'thread_id' => $row['thread_id'],
+                    'forum_id' => $row['forum_id'],
                 );
             }
             
