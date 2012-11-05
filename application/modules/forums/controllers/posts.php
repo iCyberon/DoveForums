@@ -255,6 +255,7 @@ class posts extends MY_Controller {
             
             // Get the thread permalink.
             $thread_permalink = $this->threads->get_permalink_by_id($post['thread_id']);
+            $thread_name = $this->threads->get_name_from_permalink($thread_permalink);
             
             // Get the forum permalink.
             $forum_permalink = $this->forums->get_permalink_by_id($post['forum_id']);
@@ -265,6 +266,7 @@ class posts extends MY_Controller {
                 'edit_post_fieldset' => form_fieldset('Edit Reply'),
                 'revision_fieldset' => form_fieldset('Revision'),
                 'close_fieldset' => form_fieldset_close(),
+                'thread_name' => $thread_name,
                 // body
                 'body_label' => form_label($this->lang->line('label_reply')),
                 'body_field' => form_textarea($this->form_fields['edit']['0'], set_value($this->form_fields['edit']['0']['name'], $post['content'])),
@@ -282,7 +284,7 @@ class posts extends MY_Controller {
                 'thread_permalink' => form_hidden('thread_permalink', $thread_permalink),  
             );
             
-            $this->construct_template($data, 'pages/forums/edit_post', 'Edit Reply');
+            $this->construct_template($data, 'pages/forums/edit_post', 'Reply To: '.$thread_name.'');
             
         } else {
             $edit = $this->posts->edit($post_id);

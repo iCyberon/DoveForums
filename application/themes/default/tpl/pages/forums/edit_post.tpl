@@ -1,5 +1,6 @@
 <div class="span-18">
     {form_open}
+        <h3>Reply To: {thread_name}</h3>
         {edit_post_fieldset}
             <p>
                 {body_label}<br />
