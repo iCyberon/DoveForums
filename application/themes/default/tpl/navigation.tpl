@@ -1,5 +1,5 @@
 <nav>
-    <div class="span-24 append-bottom last">
+    <div class="span-24 last">
         <ul class="menu">
             <li><a href="{site_url}">Home</a></li>
             <!-- IF !logged_in -->

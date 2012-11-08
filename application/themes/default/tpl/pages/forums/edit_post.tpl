@@ -1,4 +1,4 @@
-<div class="span-18">
+<div class="span-24 last">
     {form_open}
         <h3>Reply To: {thread_name}</h3>
         {edit_post_fieldset}

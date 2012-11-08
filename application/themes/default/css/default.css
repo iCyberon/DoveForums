@@ -3,6 +3,11 @@
 @import url("menu_styles.css");
 
 /* General */
+@import url("buttons.css");
+@import url("pagination.css");
+@import url("menu_styles.css");
+
+/* General */
 html, body { 
 	background: #fff;
 	margin: 0;
@@ -22,6 +27,15 @@ html, body {
 h1 a{
     color: #54626f;
     text-decoration: none;
+}
+
+h3 {
+    font-size: 14px !important;
+    line-height: 25px !important;
+    font-weight: bold !important;
+    height: 25px !important;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 .menu {
@@ -51,133 +65,34 @@ h1 a{
  margin-top: 10px;
 }
 
-/* Discussions */
-
-.add_border{
-    border: 1px solid;
+table {
+    border: 1px solid #c2c2c2 !important;
+    background: #fdfdfd !important;
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
 }
 
-#avatar img {
-    margin-left: 5px;
+table th.table_header{
+    width: 100%;
+    background-image: linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
+
+    background-image: -webkit-gradient(
+    	linear,
+    	left bottom,
+    	left top,
+    	color-stop(0, rgb(232,230,231)),
+    	color-stop(1, rgb(249,251,250))
+    );
+    
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important;
+    border-bottom: 1px solid #d1d1d1 !important;
 }
 
-.discussion_body {
-    border: 1px solid #e9eef1;
-    background: #f6fafd;
-    height: 50px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    color: #889aa8;
-}
-
-.sticky {
-    background: #e6efc2 !important;
-    border: 1px solid #c6d880 !important;
-}
-
-.bookmark {
-    background: #D5EDF8 !important;
-    border: 1px solid #92CAE4 !important;
-}
-
-.closed {
-    background: #FBE3E4 !important;
-    border: 1px solid #FBC2C4 !important;
-}
-
-.post_count {
-    height: 50px;
-    line-height: 50px;
-}
-
-.post_count p{
-    text-align: center;  
-}
-
-h4 a {
-    color: #54626f;
-    text-decoration: none;
-}
-
-h4 a:hover {
-    text-decoration: underline;
-    color: #282e34;
-}
-
-h4 {
-    color: #889aa8;
-}
-
-.box {
-    background: #f6fafd !important;
-    border: 1px solid #e9eef1 !important;
-}
-
-.discussion_body a {
-    color: #889aa8 !important;
-    text-decoration: none !important;
-}
-
-.discussion_body a:hover {
-    color: #282e34;
-    text-decoration: underline !important;
-}
-
-#categories a {
-    color: #54626f !important;
-    text-decoration: none !important;
-}
-
-#categories a:hover {
-    color: #282e34;
-    text-decoration: underline !important;
-}
-
-fieldset {
-    border: none !important;
-}
-
-blockquote {
-	margin: 1em 3em !important;
-	color: #999 !important;
-	border-left: 2px solid #999 !important;
-	padding-left: 1em !important;
-}
-
-.post_body {
-
-}
- 
-.permalink a {
-    text-decoration: none;
-}
-
-.permalink a:hover {
-    text-decoration: underline;
-}
-
-#avatar span.username {
-    margin: 0 !important;
-    padding: 5px !important;
-}
-
-#avatar .username a {
-	color: #54626f;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-#avatar .username a:hover {
-    color: #282e34;
-    text-decoration: underline;
-}
-
-#avatar span.details {
-    font-weight: normal;
-    font-size: 11px;
-    padding: 5px;
-}
-
-.menu_bar{
-    height: 15px;
+tbody tr:nth-child(even) td, tbody tr.even td {
+    background:#ffffff !important;
 }

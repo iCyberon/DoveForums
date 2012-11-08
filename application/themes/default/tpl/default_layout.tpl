@@ -30,11 +30,9 @@
             {header}
             {messages}
             {navigation}
-            <hr />
-                <div class="span-24 last">
+                <div class="span-24 last content">
                     {page_content}
                 </div>
-                <hr />
             <div id="footer" class="span-24 last">
                 {footer}
             </div>

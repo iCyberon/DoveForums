@@ -56,6 +56,7 @@ class forums extends MY_Controller {
                         'forum_last_post_date' => $this->function->convert_time(strtotime($row['last_post_date'])),
                         'post_count' => $this->posts->count_forum_posts($row['id']),
                         'thread_count' => $this->threads->count_forum_threads($row['id']),
+                        'forum_last_post_avatar' => img($this->gravatar->get_gravatar($row['email'], $this->settings->get_setting('gravatar_rating'), '30')),
                     );
                 }
             }
