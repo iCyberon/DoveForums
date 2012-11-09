@@ -2,13 +2,13 @@
 
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="{T_Folder}/css/default.css" />
+        <meta charset="utf-8"/>
 
         <!-- Blueprint Framework -->
         <link rel="stylesheet" href="{T_Folder}/css/screen.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{T_Folder}/css/typography.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{T_Folder}/css/print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="{T_Folder}/css/default.css" />
         <link rel="stylesheet" href="{T_Folder}/css/pagination.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="{T_Folder}/css/jquery.qtip.min.css" />
         <!--[if lt IE 8]>
@@ -29,13 +29,15 @@
         <div class="container">
             {header}
             {messages}
-            {navigation}
+            <div class="span-24 last navigation">
+                {navigation}
+            </div>
                 <div class="span-24 last content">
                     {page_content}
                 </div>
-            <div id="footer" class="span-24 last">
+            <footer class="span-24 last">
                 {footer}
-            </div>
+            </footer>
         </div>
     </body>
 </html>

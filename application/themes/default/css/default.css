@@ -9,10 +9,15 @@
 
 /* General */
 html, body { 
-	background: #fff;
 	margin: 0;
 	padding: 0;
 	width: 100%;
+    font: normal 13px helvetica,arial,sans-serif;
+    background:  url('../img/bg.png') repeat;
+}
+
+body {
+    background: url('../img/bg-top.gif') repeat-x top;
 }
 
 .logo {
@@ -24,18 +29,30 @@ html, body {
     margin: 0;
 }
 
+header {
+    height: 50px;
+    width: 100%;
+}
+
+.navigation {
+    height: 49px;
+    margin-top: -12px;
+    line-height: 49px;
+}
+
 h1 a{
     color: #54626f;
     text-decoration: none;
 }
 
 h3 {
-    font-size: 14px !important;
-    line-height: 25px !important;
-    font-weight: bold !important;
-    height: 25px !important;
-    margin: 0px !important;
-    padding: 0px !important;
+    font-size: 14px;
+    line-height: 25px;
+    height: 25px;
+    margin: 0px;
+    padding: 4px;
+    color: #ffffff;
+    text-shadow: 0px -1px -1px #1067c6;
 }
 
 .menu {
@@ -65,34 +82,78 @@ h3 {
  margin-top: 10px;
 }
 
-table {
-    border: 1px solid #c2c2c2 !important;
-    background: #fdfdfd !important;
-    border-top-left-radius: 4px !important;
-    border-top-right-radius: 4px !important;
+table.dove_data_grid {
+    border-collapse: collapse;
+    border: 1px solid #d8d8d8;   
+    padding: 0;
+    margin: 0; 
 }
 
-table th.table_header{
-    width: 100%;
-    background-image: linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
-    background-image: -o-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
-    background-image: -moz-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
-    background-image: -webkit-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
-    background-image: -ms-linear-gradient(bottom, rgb(232,230,231) 0%, rgb(249,251,250) 100%);
-
+.table_header{
+    background-image: linear-gradient(bottom, rgb(25,139,210) 0%, rgb(41,160,220) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(25,139,210) 0%, rgb(41,160,220) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(25,139,210) 0%, rgb(41,160,220) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(25,139,210) 0%, rgb(41,160,220) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(25,139,210) 0%, rgb(41,160,220) 100%);
+    
     background-image: -webkit-gradient(
     	linear,
     	left bottom,
     	left top,
-    	color-stop(0, rgb(232,230,231)),
-    	color-stop(1, rgb(249,251,250))
+    	color-stop(0, rgb(25,139,210)),
+    	color-stop(1, rgb(41,160,220))
     );
     
-    border-top-left-radius: 4px !important;
-    border-top-right-radius: 4px !important;
-    border-bottom: 1px solid #d1d1d1 !important;
+    -moz-box-shadow:    inset 0 1px 1px #7fc6ea;
+    -webkit-box-shadow: inset 0 1px 1px #7fc6ea;
+    box-shadow:         inset 0 1px 1px #7fc6ea;
+
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid #066c98;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-tbody tr:nth-child(even) td, tbody tr.even td {
-    background:#ffffff !important;
+.table_background{
+    background: #ffffff;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+tbody tr:nth-child(even) td, tbody tr.even td {background:#ffffff;} 
+
+table tr:hover {
+    background: #ffecc0;
+}
+
+table.dove_data_grid tr {
+    border-bottom: 1px solid #d8d8d8;
+}
+
+table a{
+    color: #000000;
+    text-decoration: none;
+}
+
+.content {
+    background: #ffffff;
+    border-left: 1px solid #2778ad;
+    border-right: 1px solid #2778ad;
+}
+
+footer {
+    background: #ffffff;
+    border-left: 1px solid #2778ad;
+    border-right: 1px solid #2778ad;
+    border-bottom: 1px solid #2778ad;
+    height: 50px;
+    line-height: 50px;
+}
+
+footer p{
+    margin-left: 10px;
+    margin-right: 10px;
 }
