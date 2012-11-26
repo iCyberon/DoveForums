@@ -57,6 +57,7 @@ class threads extends MY_Controller {
                     'post_count' => $this->posts->count_thread_posts($row['id']),
                     'last_activity' => $this->function->convert_time(strtotime($row['last_activity'])),
                     'last_post_by' => anchor(''.site_url().'/account/profile/'.$row['started_by'].'/', $row['last_post_by'], 'title="About '.$this->function->convert_time(strtotime($row['last_activity'])).' ago"'),
+                    'last_post_avatar' => img($this->gravatar->get_gravatar($row['email'], $this->settings->get_setting('gravatar_rating'), '30')),
                 );
             }
         }

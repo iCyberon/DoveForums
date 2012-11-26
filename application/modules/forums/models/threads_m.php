@@ -78,6 +78,7 @@ class threads_m extends CI_Model {
                     'visibility' => $row['visibility'],
                     'tags' => $row['tags'],
                     'type' => $row['type'],
+                    'email' => $row['email'],
                 );
             }
             

@@ -160,14 +160,14 @@ class posts extends MY_Controller {
                 'content' => $row['content'],
                 'created_by' => anchor(''.site_url().'/account/profile/'.$row['username'].'/', $row['username'], 'title="View '.$row['username'].'`s profile"'),
                 'created_date' => $row['created_date'],
-                'avatar' => img($this->gravatar->get_gravatar($row['email'])),
+                'avatar' => img($this->gravatar->get_gravatar($row['email'], $this->settings->get_setting('gravatar_rating'), '60')),
                 'username' => $row['username'],
                 // Post Permalink
                 'post_permalink' => anchor(''.site_url().'/topic/'.$forum_permalink.'/'.$thread_permalink.'/'.$limit.'/'.$offset.'/#'.$row['id'].'', '#'.$row['id'].'', 'title="Permalink"'),
                 // Links
                 'edit_link' => $edit_link,
                 'delete_link' => $delete_link,
-                'spam_link' => anchor(''.site_url().'/spam_post/'.$row['id'].'/', 'Spam'),
+                'spam_link' => anchor(''.site_url().'/spam_post/'.$row['id'].'/', ''.img(''.base_url().'application/themes/default/img/icons/small_exclamation.png').' Spam'),
             );
         }
         

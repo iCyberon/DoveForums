@@ -1,29 +1,26 @@
 <div>
     <div class="span-18">
-        <div class="box">
+    <div class="table_header">
         <h3>{thread_name}</h3>
-        
+    </div>
+    
+    <div class="table_background">
+        <table class="dove_data_grid">
             <!-- BEGIN posts -->
-                <div class="span-17">
-                    <div class="span-3">
-                        {avatar}
-                    </div>
-                    
-                    <div class="span-14 last " id="{id}">
-                        <div class="append-bottom"><strong>{created_by}</strong><span class="right">{posted} / {post_permalink}</span></div>
+                <tr>
+                    <td>{avatar}</td>
+                    <td>
+                        <strong>{created_by}</strong><span class="right">{posted} / {post_permalink}</span>
                         <p>{content}</p>
                         <p>{edit_link}&nbsp;{delete_link}&nbsp;{spam_link}</p>
-                    </div>
-                </div>
+                    </td>
             <!-- END posts -->
-            <div class="clear"></div>
-        </div>
-            <hr />
+        </table>
+    </div>
             <div class="span-14 pagination blue append-bottom">
                 {pagination}
             </div>
-        
-        </div>
+    </div>
     <div class="span-6 last">
         <div id="forum_info" class="box">
             <h4>Thread Info</h4>
@@ -32,7 +29,6 @@
                 <li>{post_count} replies</li>
                 <li>Last post by: {thread_last_post_by}</li>
                 <li>Last activity: {thread_last_activity} ago</li>
-                <li>Tags: </li>
                 <!-- IF is_admin -->
                     <li>{stick_thread}</li>
                     <li>{thread_status}</li>

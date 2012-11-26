@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{T_Folder}/css/typography.css" type="text/css" media="screen, projection" />
         <link rel="stylesheet" href="{T_Folder}/css/print.css" type="text/css" media="print" />
         <link rel="stylesheet" href="{T_Folder}/css/default.css" />
+        <link rel="stylesheet" href="{T_Folder}/css/menus.css" />
         <link rel="stylesheet" href="{T_Folder}/css/pagination.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="{T_Folder}/css/jquery.qtip.min.css" />
         <!--[if lt IE 8]>
@@ -26,10 +27,11 @@
     </head>
     
     <body>
+    {header}
         <div class="container">
-            {header}
+            
             {messages}
-            <div class="span-24 last navigation">
+            <div class="span-24 last">
                 {navigation}
             </div>
                 <div class="span-24 last content">

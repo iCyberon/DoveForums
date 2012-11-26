@@ -103,6 +103,8 @@ class parser
         		}
 			}
 			
+			$this->input = new stdClass;
+
 			$this->input->data = $data;
 			$this->input->config = $config;
 			
@@ -140,9 +142,6 @@ class parser
 	        	}
 	        	
 	        }
-
-			$this->data->input = $this->_append( $this->data->input, $this->data->append);
-	        $this->data->input = $this->_append( $this->data->input, $data);
 
 			if ($this->config->disable_cycles === FALSE) $this->_cycles();
 			if ($this->config->disable_conditions === FALSE) $this->_conditions();
@@ -308,6 +307,9 @@ class parser
 	function _cycle_content($matches)
     {
     	list($cycles, $subject,, $name, $content) = $matches;
+
+		$subject = $this->_append( $subject, $this->input->data + array('T_Folder' => $this->config->folder ));
+		$subject = $this->_append( $subject, $this->data->append );
 
 		if ( strpos( $subject, '{array:') !== FALSE )
 		{
@@ -706,9 +708,9 @@ class parser
 	{
 		## Replace pseudo-variables & appends
 
-		$code = $this->_do_variables($code, $this->input->data, TRUE);
-		$code = $this->_do_variables($code, $this->data->conditions, TRUE);
+		$code = $this->_append($code, $this->data->append, TRUE);
 		$code = $this->_append($code, $this->input->data, TRUE);
+		$code = $this->_append($code, $this->data->conditions, TRUE);
 
 		$code = preg_replace_callback('#{condition:(.*?)}#', create_function( '$matches', '
 			list(, $value ) = $matches;
@@ -731,7 +733,7 @@ class parser
 			## Replace everything that seems to be true or false to true or false :)
 			
 			$code = str_replace( array( 'true', 'TRUE', '"TRUE"', '"true"', '\'TRUE\'', '\'true\'' ), '1', $code );
-			$code = str_replace( array( 'true', 'TRUE', '"FALSE"', '"false"', '\'FALSE\'', '\'false\'' ), '0', $code );
+			$code = str_replace( array( 'false', 'FALSE', '"FALSE"', '"false"', '\'FALSE\'', '\'false\'' ), '0', $code );
 			
 			## Is it all right now?
 			
@@ -810,6 +812,8 @@ class parser
 		
 		echo substr($output, 0, strpos($output, $rand)); // Outputs everything from buffer from start to watchpoint
 
+		$return = new stdClass;
+
 		$return->error = (strlen(trim(substr($output, strpos($output, $rand)))) > strlen($rand)) ? TRUE : FALSE; // analyse output - is there any error message?
 		$return->result = (( $cond === TRUE ) && $return->error == 0) ? TRUE : FALSE;
 		
@@ -846,11 +850,14 @@ class parser
 	private function _variables()
     {    	
     	
-    	$this->data->variables['T_Folder'] = $this->config->folder;
+    	$this->input->data['T_Folder'] = $this->config->folder;
 
     	## Replace pseudo-variables
+
+    	$this->data->input = $this->_append( $this->data->input, $this->data->append);
+	    $this->data->input = $this->_append( $this->data->input, $this->input->data);
     	
-    	$this->data->input = $this->_do_variables( $this->data->input, $this->input->data + array('T_Folder' => $this->config->folder ));
+    	//$this->data->input = $this->_do_variables( $this->data->input, $this->input->data + array('T_Folder' => $this->config->folder ));
 
     	## Treat with exceptions
         
@@ -873,7 +880,7 @@ class parser
 
     		## Clean arrays
 
-    		$this->data->input = preg_replace('#{array:(.+?)}#', '', $this->data->input);
+    		$this->data->input = preg_replace('#{array:(.+?)}#', 'Array', $this->data->input);
     	}
         
 		$this->data->input = str_replace('&&#123&&;', '{', $this->data->input);
@@ -882,13 +889,7 @@ class parser
 
 	function _do_variables( $content, $variables, $condition = FALSE )
 	{
-		foreach ( $variables as $var_key => $var_value )
-        {
-			$var_value = @str_replace( array('{', '}'), array('&&#123&&;', '&&#125&&;' ), $var_value);
-			$content = $this->_replace_regexp($var_key, $var_value, $content, $condition);
-		}
-
-		return $content;
+		$this->_append( $content, $variables, $condition );
 	}
 	
 	/**
@@ -911,7 +912,8 @@ class parser
 
 			foreach ($map as $key => $value)
 			{
-				$content = $this->_replace_regexp( $key, $value, $content, $condition );
+				//printf('<div style="margin:20px; padding: 20px; border: 1px solid gray; border-width: 1px 1px 1px 5px"><strong>[%s]</strong>: %s</div>', $key, $value);
+				$content = $this->_replace_regexp( $key, str_replace( array('{', '}'), array('&&#123&&;', '&&#125&&;' ), $value), $content, $condition );
 			}
 		}
 
@@ -924,15 +926,10 @@ class parser
 		
 		foreach( $source as $key => $value )
 		{
-			if ( is_string($value) )
-			{
-				$result[ $_parents . ( ! empty($_parents) ? '\s*:\s*' : '' ) . $key ] = $value;
-			}
+			$result[ $_parents . ( ! empty($_parents) ? '\s*:\s*' : '' ) . $key ] = $value;
 
-			elseif ( is_array($value) )
+			if ( is_array($value) )
 			{
-				$result[ $_parents . ( ! empty($_parents) ? '\s*:\s*' : '' ) . '{array:' . urlencode( serialize( $key ) ) . '}' ] = $value;
-
 				array_push($parents, $key);
 				$this->_append_map($value, $parents, $result);
 				array_pop($parents);
@@ -962,13 +959,15 @@ class parser
 
 		$regexp = str_replace(array(':','-'), array('\:', '\-'), $regexp);
 
+
+		$this->regexp = new stdClass;
 		$this->regexp->value = $value;
 		$this->regexp->condition = $condition;
 
 		## Do regular expression with callback to _replace_regexp_callback
 
 		if ( ! empty($regexp))
-		return preg_replace_callback( sprintf( '#{%s(\|(.+)\s*)?}#', $regexp ), array($this->classname, "_replace_regexp_callback"), $content);
+		return preg_replace_callback( sprintf( '#{%s(\|(.+?)\s*)?}#', $regexp ), array($this->classname, "_replace_regexp_callback"), $content);
 	}
 
 	function _replace_regexp_callback( $m )
@@ -983,7 +982,7 @@ class parser
 		{
 			if (is_callable( $arg ))
 			{
-				if ( !($return = $arg($return)))
+				if ( ($return = $arg($return)) === FALSE)
 				{
 					$return = $value;
 				}
@@ -1051,6 +1050,9 @@ class parser
 	
 	private function _default()
 	{
+		if ( ! $this->config) $this->config = new stdClass;
+		if ( ! $this->data) $this->data = new stdClass;
+
 		$this->config->append = array(); // you can set append from config
 		$this->config->clean = TRUE;
 		$this->config->disable_appends = FALSE;

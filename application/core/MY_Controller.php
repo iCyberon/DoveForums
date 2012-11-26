@@ -82,7 +82,9 @@ class MY_Controller extends MX_Controller{
         );
         
         // Footer data.
-        $footer_date = array();
+        $footer_date = array(
+            'test' => 'test',
+        );
         
         // Main Template Data
         $main_template_data = array(

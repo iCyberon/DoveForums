@@ -1,31 +1,27 @@
 <div>
     <div class="span-18">
-        <div class="box">
+        <div class="table_header">
             <h3>{forum_name}</h3>
-            <div>
-                <!-- IF {has_threads} -->
-                <table>
-                    <tr>
-                        <th>Topic</th>
-                        <th>Replies</th>
-                        <th>Last Post</th>
-                    </tr>
-                        <!-- BEGIN threads -->
+        </div>
+                <div class="table_background">
+                    <table class="dove_data_grid">
+                        <!-- IF {has_threads} -->
+                            <!-- BEGIN threads -->
+                                <tr>
+                                    <td><img src="{T_Folder}/img/icons/noreplys.png" /></td>
+                                    <td><strong>{title}</strong><br>Started By: {started_by}</td>
+                                    <td><strong>{post_count}</strong> posts</td>
+                                    <td>{last_post_avatar}</td>
+                                    <td>{last_post_by}</td>
+                                </tr>
+                            <!-- END threads -->
+                        <!-- ELSE -->
                             <tr>
-                                <td><strong>{title}</strong><br>Started By: {started_by}</td>
-                                <td>{post_count}</td>
-                                <td>{last_post_by}</td>
+                                <td class="info">Sorry no threads have been found.  Why not start one ?</td>
                             </tr>
-                        <!-- END threads -->
-                    <!-- ELSE -->
-                        <div class="info">
-                            <span>Sorry no threads have been found.  Why not start one ?</span>
-                        </div>
-                    <!-- END -->
-                        
+                        <!-- END -->
                     </table>
                 </div>
-            </div>
     </div>
     <div class="span-6 last">
         <div id="forum_info" class="box">
